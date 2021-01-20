@@ -46,33 +46,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Admin.cs">
+    <Compile Include="UI\Admin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Admin.Designer.cs">
+    <Compile Include="UI\Admin.Designer.cs">
       <DependentUpon>Admin.cs</DependentUpon>
     </Compile>
     <Compile Include="Constants.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="DataService.cs" />
-    <Compile Include="RatingPortal.cs">
+    <Compile Include="UI\RatingPortal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RatingPortal.Designer.cs">
+    <Compile Include="UI\RatingPortal.Designer.cs">
       <DependentUpon>RatingPortal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login.cs">
+    <Compile Include="UI\Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Login.Designer.cs">
+    <Compile Include="UI\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Admin.resx">
+    <EmbeddedResource Include="UI\Admin.resx">
       <DependentUpon>Admin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login.resx">
+    <EmbeddedResource Include="UI\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -80,7 +80,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="RatingPortal.resx">
+    <EmbeddedResource Include="UI\RatingPortal.resx">
       <DependentUpon>RatingPortal.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
