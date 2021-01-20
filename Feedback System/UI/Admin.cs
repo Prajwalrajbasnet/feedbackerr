@@ -14,8 +14,9 @@ namespace Feedback_System
     public partial class Admin : Form
     {
         public Login parentForm = new Login();
-        public string criteriaFilePath;
-  
+        private string criteriaFilePath;
+        private List<Feedback> feedbackList = new List<Feedback>(); 
+
         public Admin()
         {
             InitializeComponent();
@@ -24,6 +25,7 @@ namespace Feedback_System
         private void Admin_Load(object sender, EventArgs e)
         {
             LoadCriterias();
+            LoadFeedbacks();
         }
 
         private void LoadCriterias() {
@@ -52,24 +54,7 @@ namespace Feedback_System
             parentForm.exitApp();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            // Reload Criterias
-            criteriaList.Items.Clear();
-            LoadCriterias();
-        }
-
-        private void criteriaList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void addCriteriaBtn_Click(object sender, EventArgs e)
         {
             // Add new criteria
             try
@@ -92,6 +77,63 @@ namespace Feedback_System
             catch (Exception ex)
             {
                 MessageBox.Show("Exception occured while writing the file");
+            }
+
+        }
+
+        private void refreshCriteriaBtn_Click(object sender, EventArgs e)
+        {
+            // Reload Criterias
+            criteriaList.Items.Clear();
+            LoadCriterias();
+        }
+
+        private void feedbacksPage_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("clicked feedbacks page");
+
+        }
+
+        private void LoadFeedbacks() {
+            List<string[]> rows = DataService.FetchFeedbackData();
+            /**
+             * Add columns in the gridview
+             */
+            feedbacksGridView.ColumnCount = rows[0].Length;
+            int[] emptyArr = new int[3];
+            for (var i = 0; i < rows[0].Length; i++)
+            {
+                feedbacksGridView.Columns[i].Name = rows[0][i];
+            }
+
+                for (var i = 1; i < rows.Count; i++)
+                {
+                Console.WriteLine("rows[1]: ", rows[1]);
+                int[] rowRatings = new int[rows[0].Length - 6];
+                    for (var j = 5; j < rows[0].Length - 1; j++)
+                    {
+                        rowRatings[j - 5] = int.Parse(rows[i][j]);
+                    }
+                    this.feedbackList.Add(new Feedback(rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rowRatings, rows[i][rows[i].Length - 1]));
+                }
+                PopulateGridView();
+
+        }
+
+        private void PopulateGridView() {
+            foreach (Feedback feedback in feedbackList) {
+                string[] feedbackItemArray = new string[6 + feedback.Ratings.Length];
+                feedbackItemArray[0] = feedback.CustomerName;
+                feedbackItemArray[1] = feedback.Contact;
+                feedbackItemArray[2] = feedback.Email;
+                feedbackItemArray[3] = feedback.Address;
+                feedbackItemArray[4] = feedback.FeedbackText;
+
+                for (var i = 0; i < feedback.Ratings.Length; i++) {
+                    feedbackItemArray[i + 5] = Util.mapRatingValueToText(feedback.Ratings[i]);
+                }
+                feedbackItemArray[feedbackItemArray.Length - 1] = feedback.Timestamp;
+                feedbacksGridView.Rows.Add(feedbackItemArray);
             }
         }
     }

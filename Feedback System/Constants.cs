@@ -9,5 +9,7 @@ namespace Feedback_System
     class Constants
     {
         internal static string[] ratings = { "Excellent", "Good", "Average", "Dissatisfied" };
+
+        
     }
 }

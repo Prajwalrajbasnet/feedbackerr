@@ -45,7 +45,8 @@ namespace Feedback_System
                 if (!File.Exists(ratingsFilePath))
                 {
                     using (var fs = File.Create(ratingsFilePath)) {
-                        byte[] title = new UTF8Encoding(true).GetBytes(Util.convertListToCsv(criterias) + ",Datetime" + "\r\n");
+                        byte[] title = new UTF8Encoding(true).GetBytes("Customer Name,Contact Number,Email,Location,Feedback," 
+                                       + Util.convertListToCsv(criterias) + ",Datetime" + "\r\n");
                         fs.Write(title, 0, title.Length);
                         fs.Close();
                     }
@@ -62,6 +63,10 @@ namespace Feedback_System
             {
                 MessageBox.Show("Something went wrong while loading system files");
             }
-        } 
+        }
+
+        internal static List<string[]> FetchFeedbackData() {
+            return File.ReadAllLines(Util.GetAbsoluteFilePath("Data\\ratings.csv")).Select(str => str.Split(',')).ToList();
+        }
     }
 }

@@ -44,7 +44,6 @@
             this.infoBox = new System.Windows.Forms.GroupBox();
             this.ratingsBox = new System.Windows.Forms.GroupBox();
             this.ratingsPanel = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.submitBtn = new System.Windows.Forms.Button();
             this.infoBox.SuspendLayout();
             this.ratingsBox.SuspendLayout();
@@ -197,16 +196,6 @@
             this.ratingsPanel.Size = new System.Drawing.Size(668, 233);
             this.ratingsPanel.TabIndex = 0;
             // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(684, 44);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(140, 32);
-            this.button1.TabIndex = 24;
-            this.button1.Text = "Import from CSV";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // submitBtn
             // 
             this.submitBtn.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -224,7 +213,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(985, 751);
             this.Controls.Add(this.submitBtn);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.ratingsBox);
             this.Controls.Add(this.infoBox);
             this.Controls.Add(this.label1);
@@ -259,7 +247,6 @@
         private System.Windows.Forms.GroupBox infoBox;
         private System.Windows.Forms.GroupBox ratingsBox;
         private System.Windows.Forms.Panel ratingsPanel;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button submitBtn;
     }
 }

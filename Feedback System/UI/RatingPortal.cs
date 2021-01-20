@@ -80,7 +80,7 @@ namespace Feedback_System
                     var rating = ratingGroup.Controls.OfType<RadioButton>().Where(r => r.Checked).Select(s => s.Text).First();
                     ratings.Add(Util.mapRatingTextToValue(rating));
                 }
-                var ratingCsvString = Util.ConvertRatingToCsv(nameField.Text, contactField.Text, emailField.Text, addressField.Text, ratings);
+                var ratingCsvString = Util.ConvertRatingToCsv(nameField.Text, contactField.Text, emailField.Text, addressField.Text, feedbackField.Text, ratings);
                 DataService.SaveRating(ratingCsvString, this.criterias);
                 ResetFields();
                 MessageBox.Show("Ratings saved successfully");
@@ -98,6 +98,7 @@ namespace Feedback_System
             contactField.Text = "";
             emailField.Text = "";
             addressField.Text = "";
+            feedbackField.Text = "";
 
             var ratingGroups = this.ratingsTableLayout.Controls.OfType<FlowLayoutPanel>().ToArray();
             foreach (var ratingGroup in ratingGroups){

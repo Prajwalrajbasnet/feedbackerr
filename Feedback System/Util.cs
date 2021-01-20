@@ -14,8 +14,8 @@ namespace Feedback_System
             return path;
         }
 
-        internal static string  ConvertRatingToCsv(string name, string contact, string email, string address, List<String> ratings ) {
-            string csv = string.Format("{0},{1},{2},{3},", name, contact, email, address);
+        internal static string  ConvertRatingToCsv(string name, string contact, string email, string address, string feedback, List<String> ratings ) {
+            string csv = string.Format("{0},{1},{2},{3},{4},", name, contact, email, address, feedback);
             csv += convertListToCsv(ratings) + "," + DateTime.Now;
             return csv;
         }
@@ -39,7 +39,7 @@ namespace Feedback_System
         }
 
         internal static string mapRatingValueToText(int ratingValue) {
-            return Constants.ratings[Constants.ratings.Length - ratingValue];
+            return Constants.ratings[Constants.ratings.Length -  ratingValue];
         }
     }
 }
