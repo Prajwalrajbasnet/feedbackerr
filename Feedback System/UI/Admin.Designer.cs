@@ -39,10 +39,14 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.feedbacksPage = new System.Windows.Forms.TabPage();
+            this.sortOrderComboBox = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.sortByComboBox = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.saveBtn = new System.Windows.Forms.Button();
             this.bulkImportBtn = new System.Windows.Forms.Button();
             this.feedbacksGridView = new System.Windows.Forms.DataGridView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.saveBtn = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.addCriteriaPage.SuspendLayout();
             this.feedbacksPage.SuspendLayout();
@@ -58,7 +62,7 @@
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(902, 562);
+            this.tabControl.Size = new System.Drawing.Size(1274, 562);
             this.tabControl.TabIndex = 0;
             // 
             // addCriteriaPage
@@ -74,7 +78,7 @@
             this.addCriteriaPage.Controls.Add(this.label1);
             this.addCriteriaPage.Location = new System.Drawing.Point(4, 25);
             this.addCriteriaPage.Name = "addCriteriaPage";
-            this.addCriteriaPage.Size = new System.Drawing.Size(894, 533);
+            this.addCriteriaPage.Size = new System.Drawing.Size(1266, 533);
             this.addCriteriaPage.TabIndex = 0;
             this.addCriteriaPage.Text = "Add Criteria";
             // 
@@ -161,19 +165,75 @@
             // feedbacksPage
             // 
             this.feedbacksPage.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.feedbacksPage.Controls.Add(this.sortOrderComboBox);
+            this.feedbacksPage.Controls.Add(this.label6);
+            this.feedbacksPage.Controls.Add(this.sortByComboBox);
+            this.feedbacksPage.Controls.Add(this.label5);
             this.feedbacksPage.Controls.Add(this.saveBtn);
             this.feedbacksPage.Controls.Add(this.bulkImportBtn);
             this.feedbacksPage.Controls.Add(this.feedbacksGridView);
             this.feedbacksPage.Location = new System.Drawing.Point(4, 25);
             this.feedbacksPage.Name = "feedbacksPage";
-            this.feedbacksPage.Size = new System.Drawing.Size(894, 533);
+            this.feedbacksPage.Size = new System.Drawing.Size(1266, 533);
             this.feedbacksPage.TabIndex = 0;
             this.feedbacksPage.Text = "Feedbacks";
+            // 
+            // sortOrderComboBox
+            // 
+            this.sortOrderComboBox.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sortOrderComboBox.FormattingEnabled = true;
+            this.sortOrderComboBox.Items.AddRange(new object[] {
+            "Ascending",
+            "Descending"});
+            this.sortOrderComboBox.Location = new System.Drawing.Point(514, 64);
+            this.sortOrderComboBox.Name = "sortOrderComboBox";
+            this.sortOrderComboBox.Size = new System.Drawing.Size(172, 31);
+            this.sortOrderComboBox.TabIndex = 30;
+            this.sortOrderComboBox.SelectedIndexChanged += new System.EventHandler(this.sortOrderComboBox_SelectedIndexChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(433, 72);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(75, 17);
+            this.label6.TabIndex = 29;
+            this.label6.Text = "Sort Order";
+            // 
+            // sortByComboBox
+            // 
+            this.sortByComboBox.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sortByComboBox.FormattingEnabled = true;
+            this.sortByComboBox.Location = new System.Drawing.Point(141, 64);
+            this.sortByComboBox.Name = "sortByComboBox";
+            this.sortByComboBox.Size = new System.Drawing.Size(233, 31);
+            this.sortByComboBox.TabIndex = 28;
+            this.sortByComboBox.SelectedIndexChanged += new System.EventHandler(this.sortByComboBox_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(81, 72);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(54, 17);
+            this.label5.TabIndex = 27;
+            this.label5.Text = "Sort By";
+            // 
+            // saveBtn
+            // 
+            this.saveBtn.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveBtn.Location = new System.Drawing.Point(380, 416);
+            this.saveBtn.Name = "saveBtn";
+            this.saveBtn.Size = new System.Drawing.Size(114, 36);
+            this.saveBtn.TabIndex = 26;
+            this.saveBtn.Text = "Save";
+            this.saveBtn.UseVisualStyleBackColor = true;
+            this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
             // 
             // bulkImportBtn
             // 
             this.bulkImportBtn.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bulkImportBtn.Location = new System.Drawing.Point(689, 53);
+            this.bulkImportBtn.Location = new System.Drawing.Point(1027, 72);
             this.bulkImportBtn.Name = "bulkImportBtn";
             this.bulkImportBtn.Size = new System.Drawing.Size(140, 32);
             this.bulkImportBtn.TabIndex = 25;
@@ -190,7 +250,7 @@
             this.feedbacksGridView.Name = "feedbacksGridView";
             this.feedbacksGridView.RowHeadersWidth = 51;
             this.feedbacksGridView.RowTemplate.Height = 24;
-            this.feedbacksGridView.Size = new System.Drawing.Size(748, 258);
+            this.feedbacksGridView.Size = new System.Drawing.Size(1086, 258);
             this.feedbacksGridView.TabIndex = 0;
             // 
             // tabPage1
@@ -198,27 +258,16 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(894, 533);
+            this.tabPage1.Size = new System.Drawing.Size(1266, 533);
             this.tabPage1.TabIndex = 1;
             this.tabPage1.Text = "Reports";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // saveBtn
-            // 
-            this.saveBtn.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveBtn.Location = new System.Drawing.Point(380, 416);
-            this.saveBtn.Name = "saveBtn";
-            this.saveBtn.Size = new System.Drawing.Size(114, 36);
-            this.saveBtn.TabIndex = 26;
-            this.saveBtn.Text = "Save";
-            this.saveBtn.UseVisualStyleBackColor = true;
-            this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
             // 
             // Admin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(902, 562);
+            this.ClientSize = new System.Drawing.Size(1274, 562);
             this.Controls.Add(this.tabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -230,6 +279,7 @@
             this.addCriteriaPage.ResumeLayout(false);
             this.addCriteriaPage.PerformLayout();
             this.feedbacksPage.ResumeLayout(false);
+            this.feedbacksPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.feedbacksGridView)).EndInit();
             this.ResumeLayout(false);
 
@@ -252,5 +302,9 @@
         private System.Windows.Forms.Button bulkImportBtn;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Button saveBtn;
+        private System.Windows.Forms.ComboBox sortOrderComboBox;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox sortByComboBox;
+        private System.Windows.Forms.Label label5;
     }
 }

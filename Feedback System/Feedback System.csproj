@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="QuickSort.cs" />
     <Compile Include="Feedback.cs" />
     <Compile Include="UI\Admin.cs">
       <SubType>Form</SubType>

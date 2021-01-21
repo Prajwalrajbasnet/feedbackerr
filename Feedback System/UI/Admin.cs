@@ -17,6 +17,7 @@ namespace Feedback_System
         private string criteriaFilePath;
         private List<Feedback> feedbackList = new List<Feedback>();
         private List<string[]> importedFeedbacks;
+        private QuickSort quickSorter = new QuickSort();
 
         public Admin()
         {
@@ -39,6 +40,7 @@ namespace Feedback_System
                     string line;
                     while ((line = sr.ReadLine()) != null) {
                         criteriaList.Items.Add(line);
+                        sortByComboBox.Items.Add(line);
                     }
                     sr.Close();
                 }
@@ -132,22 +134,39 @@ namespace Feedback_System
             }
         }
 
-        private void PopulateGridView() {
+        private void PopulateGridView(string sortOrder = "Ascending") {
             feedbacksGridView.Rows.Clear();
-            foreach (Feedback feedback in feedbackList) {
-                string[] feedbackItemArray = new string[6 + feedback.Ratings.Length];
-                feedbackItemArray[0] = feedback.CustomerName;
-                feedbackItemArray[1] = feedback.Contact;
-                feedbackItemArray[2] = feedback.Email;
-                feedbackItemArray[3] = feedback.Address;
-                feedbackItemArray[4] = feedback.FeedbackText;
-
-                for (var i = 0; i < feedback.Ratings.Length; i++) {
-                    feedbackItemArray[i + 5] = Util.mapRatingValueToText(feedback.Ratings[i]);
+            if (sortOrder == "Ascending")
+            {
+                for (var i = 0; i < feedbackList.Count; i++)
+                {
+                    string[] feedbackItemArray = FeedbackObjToArray(feedbackList[i]);
+                    feedbacksGridView.Rows.Add(feedbackItemArray);
                 }
-                feedbackItemArray[feedbackItemArray.Length - 1] = feedback.Timestamp;
-                feedbacksGridView.Rows.Add(feedbackItemArray);
             }
+            else {
+                for (var i = feedbackList.Count - 1; i >= 0; i--) {
+                    string[] feedbackItemArray = FeedbackObjToArray(feedbackList[i]);
+                    feedbacksGridView.Rows.Add(feedbackItemArray);
+                }
+            }
+        }
+
+        private string[] FeedbackObjToArray(Feedback feedback) { 
+            string[] feedbackItemArray = new string[6 + feedback.Ratings.Length];
+            feedbackItemArray[0] = feedback.CustomerName;
+            feedbackItemArray[1] = feedback.Contact;
+            feedbackItemArray[2] = feedback.Email;
+            feedbackItemArray[3] = feedback.Address;
+            feedbackItemArray[4] = feedback.FeedbackText;
+
+            for (var i = 0; i < feedback.Ratings.Length; i++) {
+                feedbackItemArray[i + 5] = Util.mapRatingValueToText(feedback.Ratings[i]);
+            }
+            feedbackItemArray[feedbackItemArray.Length - 1] = feedback.Timestamp;
+
+            return feedbackItemArray;
+            
         }
 
         private void saveBtn_Click(object sender, EventArgs e)
@@ -161,6 +180,34 @@ namespace Feedback_System
             }
             this.importedFeedbacks = null;
             MessageBox.Show("Imported feedbacks saved successfully");
+        }
+
+        private void sortByComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.feedbackList = quickSorter.Sort(this.feedbackList, 0, this.feedbackList.Count - 1, sortByComboBox.SelectedIndex);
+            if (sortOrderComboBox.SelectedIndex >= 0)
+            {
+                PopulateGridView(sortOrderComboBox.SelectedItem.ToString());
+            }
+            else {
+                PopulateGridView();
+            }
+            
+        }
+
+        private void sortOrderComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (sortOrderComboBox.SelectedIndex == -1) {
+                return;
+            }
+            if (!(sortByComboBox.SelectedIndex >= 0))
+            {
+                MessageBox.Show("Please select criteria to sort for!");
+                sortOrderComboBox.SelectedIndex = -1;
+            }
+            else { 
+                PopulateGridView(sortOrderComboBox.SelectedItem.ToString());
+            }
         }
     }
 }
