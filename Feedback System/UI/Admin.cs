@@ -252,5 +252,12 @@ namespace Feedback_System
             }
             DrawChart(chartComboBox.SelectedItem.ToString());
         }
+
+        private void logoutBtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Login login = new Login();
+            login.Show();
+        }
     }
 }
