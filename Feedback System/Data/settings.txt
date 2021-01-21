@@ -6,3 +6,5 @@ Restaurant Ambiance
 Value for Money
 Hospitality
 Management
+Location
+AnotherCriteria

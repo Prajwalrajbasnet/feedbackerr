@@ -19,6 +19,10 @@ namespace Feedback_System
 
             for (var i = low; i < high; i++)
             {
+                if (list[i].Ratings.Length - 1 <= criteriaIndex || pivot.Ratings.Length - 1 <= criteriaIndex)
+                {
+                    continue;
+                }
                 if (list[i].Ratings[criteriaIndex] <= pivot.Ratings[criteriaIndex])
                 {
                     // Swap the pointer and the item smaller or equal to pivot 

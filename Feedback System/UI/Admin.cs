@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,9 +16,16 @@ namespace Feedback_System
     {
         public Login parentForm = new Login();
         private string criteriaFilePath;
+        private List<string> criteriaTitles = new List<string>();
         private List<Feedback> feedbackList = new List<Feedback>();
         private List<string[]> importedFeedbacks;
         private QuickSort quickSorter = new QuickSort();
+        private Hashtable chartHashTable = new Hashtable() {
+            { "Excellent", 0 },
+            { "Good", 0 },
+            { "Average", 0 },
+            { "Dissatisfied", 0 }
+        };
 
         public Admin()
         {
@@ -28,6 +36,8 @@ namespace Feedback_System
         {
             LoadCriterias();
             LoadFeedbacks(DataService.FetchFeedbackData());
+            chartComboBox.SelectedIndex = 0;
+            
         }
 
         private void LoadCriterias() {
@@ -41,6 +51,8 @@ namespace Feedback_System
                     while ((line = sr.ReadLine()) != null) {
                         criteriaList.Items.Add(line);
                         sortByComboBox.Items.Add(line);
+                        chartComboBox.Items.Add(line);
+                        criteriaTitles.Add(line);
                     }
                     sr.Close();
                 }
@@ -108,19 +120,21 @@ namespace Feedback_System
                 if (!bulkImport)
                 {
                     //Add columns in the gridview
-                    feedbacksGridView.ColumnCount = rows[0].Length;
-                    int[] emptyArr = new int[3];
-                    for (var i = 0; i < rows[0].Length; i++)
-                    {
+                    feedbacksGridView.ColumnCount = criteriaTitles.Count + 6;
+                    for (var i = 0; i < 5; i++) { 
                         feedbacksGridView.Columns[i].Name = rows[0][i];
                     }
+                    for (var i = 5; i < feedbacksGridView.ColumnCount - 1; i++)
+                    {
+                        feedbacksGridView.Columns[i].Name = criteriaTitles[i - 5];
+                    }
+                    feedbacksGridView.Columns[feedbacksGridView.ColumnCount - 1].Name = "Timestamp";
                 }
 
                 for (var i = 1; i < rows.Count; i++)
                 {
-                    Console.WriteLine("rows count" + rows.Count);
-                    int[] rowRatings = new int[rows[0].Length - 6];
-                    for (var j = 5; j < rows[0].Length - 1; j++)
+                    int[] rowRatings = new int[rows[i].Length - 6];
+                    for (var j = 5; j < rows[i].Length - 1; j++)
                     {
                         rowRatings[j - 5] = int.Parse(rows[i][j]);
                     }
@@ -153,7 +167,7 @@ namespace Feedback_System
         }
 
         private string[] FeedbackObjToArray(Feedback feedback) { 
-            string[] feedbackItemArray = new string[6 + feedback.Ratings.Length];
+            string[] feedbackItemArray = new string[feedbacksGridView.ColumnCount];
             feedbackItemArray[0] = feedback.CustomerName;
             feedbackItemArray[1] = feedback.Contact;
             feedbackItemArray[2] = feedback.Email;
@@ -190,6 +204,7 @@ namespace Feedback_System
                 PopulateGridView(sortOrderComboBox.SelectedItem.ToString());
             }
             else {
+                sortOrderComboBox.SelectedIndex = 0;
                 PopulateGridView();
             }
             
@@ -208,6 +223,34 @@ namespace Feedback_System
             else { 
                 PopulateGridView(sortOrderComboBox.SelectedItem.ToString());
             }
+        }
+
+        private void DrawChart(string chartTitle) {
+            ratingChart.Titles.Clear();
+            ratingChart.Series[0].Points.Clear();
+
+            ratingChart.Series["Ratings"].Points.AddXY("Excellent", chartHashTable["Excellent"].ToString());
+            ratingChart.Series["Ratings"].Points.AddXY("Good", chartHashTable["Good"].ToString());
+            ratingChart.Series["Ratings"].Points.AddXY("Average", chartHashTable["Average"].ToString());
+            ratingChart.Series["Ratings"].Points.AddXY("Dissatisfied", chartHashTable["Dissatisfied"].ToString());
+
+            ratingChart.Titles.Add(chartTitle);
+        }
+
+        private void chartComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            chartHashTable["Excellent"] = 0;
+            chartHashTable["Good"] = 0;
+            chartHashTable["Average"] = 0;
+            chartHashTable["Dissatisfied"] = 0;
+            foreach (var feedback in feedbackList) {
+                if (chartComboBox.SelectedIndex > (feedback.Ratings.Length - 1)) {
+                    continue;                    
+                }
+                string ratingTitle = Util.mapRatingValueToText(feedback.Ratings[chartComboBox.SelectedIndex]);
+                chartHashTable[ratingTitle] = ((int) chartHashTable[ratingTitle]) + 1;
+            }
+            DrawChart(chartComboBox.SelectedItem.ToString());
         }
     }
 }
