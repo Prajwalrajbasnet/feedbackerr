@@ -28,7 +28,6 @@ namespace Feedback_System
 
         private void RenderRatingControls() {
             // Adds groupbox with radio buttons for each criteria
-
             this.criterias = DataService.FetchCriterias();
             string[] ratingLevels = Constants.ratings;
             this.ratingsTableLayout.Location = new Point(20, 0);

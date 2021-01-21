@@ -15,7 +15,8 @@ namespace Feedback_System
     {
         public Login parentForm = new Login();
         private string criteriaFilePath;
-        private List<Feedback> feedbackList = new List<Feedback>(); 
+        private List<Feedback> feedbackList = new List<Feedback>();
+        private List<string[]> importedFeedbacks;
 
         public Admin()
         {
@@ -25,7 +26,7 @@ namespace Feedback_System
         private void Admin_Load(object sender, EventArgs e)
         {
             LoadCriterias();
-            LoadFeedbacks();
+            LoadFeedbacks(DataService.FetchFeedbackData());
         }
 
         private void LoadCriterias() {
@@ -78,7 +79,6 @@ namespace Feedback_System
             {
                 MessageBox.Show("Exception occured while writing the file");
             }
-
         }
 
         private void refreshCriteriaBtn_Click(object sender, EventArgs e)
@@ -88,39 +88,52 @@ namespace Feedback_System
             LoadCriterias();
         }
 
-        private void feedbacksPage_Click(object sender, EventArgs e)
+        private void bulkImportBtn_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("clicked feedbacks page");
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV Files (*.csv)|*.csv";
 
+            if (openFileDialog.ShowDialog() == DialogResult.OK) { 
+                this.importedFeedbacks =  File.ReadAllLines(openFileDialog.FileName).Select(str => str.Split(',')).ToList();
+                Console.WriteLine("imported feedbacks " + this.importedFeedbacks.Count);
+                LoadFeedbacks(this.importedFeedbacks, true);
+            }
         }
 
-        private void LoadFeedbacks() {
-            List<string[]> rows = DataService.FetchFeedbackData();
-            /**
-             * Add columns in the gridview
-             */
-            feedbacksGridView.ColumnCount = rows[0].Length;
-            int[] emptyArr = new int[3];
-            for (var i = 0; i < rows[0].Length; i++)
+        private void LoadFeedbacks(List<string[]> rows, Boolean bulkImport = false) {
+            try
             {
-                feedbacksGridView.Columns[i].Name = rows[0][i];
-            }
+                if (!bulkImport)
+                {
+                    //Add columns in the gridview
+                    feedbacksGridView.ColumnCount = rows[0].Length;
+                    int[] emptyArr = new int[3];
+                    for (var i = 0; i < rows[0].Length; i++)
+                    {
+                        feedbacksGridView.Columns[i].Name = rows[0][i];
+                    }
+                }
 
                 for (var i = 1; i < rows.Count; i++)
                 {
-                Console.WriteLine("rows[1]: ", rows[1]);
-                int[] rowRatings = new int[rows[0].Length - 6];
+                    Console.WriteLine("rows count" + rows.Count);
+                    int[] rowRatings = new int[rows[0].Length - 6];
                     for (var j = 5; j < rows[0].Length - 1; j++)
                     {
                         rowRatings[j - 5] = int.Parse(rows[i][j]);
                     }
                     this.feedbackList.Add(new Feedback(rows[i][0], rows[i][1], rows[i][2], rows[i][3], rows[i][4], rowRatings, rows[i][rows[i].Length - 1]));
                 }
-                PopulateGridView();
 
+                PopulateGridView();
+            }
+            catch (Exception) {
+                MessageBox.Show("Something error occured while importing feedback data! Make sure it is in right format.");
+            }
         }
 
         private void PopulateGridView() {
+            feedbacksGridView.Rows.Clear();
             foreach (Feedback feedback in feedbackList) {
                 string[] feedbackItemArray = new string[6 + feedback.Ratings.Length];
                 feedbackItemArray[0] = feedback.CustomerName;
@@ -135,6 +148,19 @@ namespace Feedback_System
                 feedbackItemArray[feedbackItemArray.Length - 1] = feedback.Timestamp;
                 feedbacksGridView.Rows.Add(feedbackItemArray);
             }
+        }
+
+        private void saveBtn_Click(object sender, EventArgs e)
+        {
+            List<string> criterias = DataService.FetchCriterias();
+            foreach (var feedback in importedFeedbacks) {
+                if (importedFeedbacks.IndexOf(feedback) == 0) {
+                    continue;
+                }
+                DataService.SaveRating(Util.convertListToCsv(feedback.ToList()), criterias);
+            }
+            this.importedFeedbacks = null;
+            MessageBox.Show("Imported feedbacks saved successfully");
         }
     }
 }

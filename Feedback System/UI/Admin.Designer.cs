@@ -39,9 +39,10 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.feedbacksPage = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
+            this.bulkImportBtn = new System.Windows.Forms.Button();
             this.feedbacksGridView = new System.Windows.Forms.DataGridView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.saveBtn = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.addCriteriaPage.SuspendLayout();
             this.feedbacksPage.SuspendLayout();
@@ -160,24 +161,25 @@
             // feedbacksPage
             // 
             this.feedbacksPage.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.feedbacksPage.Controls.Add(this.button1);
+            this.feedbacksPage.Controls.Add(this.saveBtn);
+            this.feedbacksPage.Controls.Add(this.bulkImportBtn);
             this.feedbacksPage.Controls.Add(this.feedbacksGridView);
             this.feedbacksPage.Location = new System.Drawing.Point(4, 25);
             this.feedbacksPage.Name = "feedbacksPage";
             this.feedbacksPage.Size = new System.Drawing.Size(894, 533);
             this.feedbacksPage.TabIndex = 0;
             this.feedbacksPage.Text = "Feedbacks";
-            this.feedbacksPage.Click += new System.EventHandler(this.feedbacksPage_Click);
             // 
-            // button1
+            // bulkImportBtn
             // 
-            this.button1.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(689, 46);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(140, 32);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "Import from CSV";
-            this.button1.UseVisualStyleBackColor = true;
+            this.bulkImportBtn.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bulkImportBtn.Location = new System.Drawing.Point(689, 53);
+            this.bulkImportBtn.Name = "bulkImportBtn";
+            this.bulkImportBtn.Size = new System.Drawing.Size(140, 32);
+            this.bulkImportBtn.TabIndex = 25;
+            this.bulkImportBtn.Text = "Import from CSV";
+            this.bulkImportBtn.UseVisualStyleBackColor = true;
+            this.bulkImportBtn.Click += new System.EventHandler(this.bulkImportBtn_Click);
             // 
             // feedbacksGridView
             // 
@@ -200,6 +202,17 @@
             this.tabPage1.TabIndex = 1;
             this.tabPage1.Text = "Reports";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // saveBtn
+            // 
+            this.saveBtn.Font = new System.Drawing.Font("Segoe UI Semibold", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveBtn.Location = new System.Drawing.Point(380, 416);
+            this.saveBtn.Name = "saveBtn";
+            this.saveBtn.Size = new System.Drawing.Size(114, 36);
+            this.saveBtn.TabIndex = 26;
+            this.saveBtn.Text = "Save";
+            this.saveBtn.UseVisualStyleBackColor = true;
+            this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
             // 
             // Admin
             // 
@@ -236,7 +249,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabPage feedbacksPage;
         private System.Windows.Forms.DataGridView feedbacksGridView;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button bulkImportBtn;
         private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Button saveBtn;
     }
 }

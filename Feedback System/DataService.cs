@@ -36,8 +36,6 @@ namespace Feedback_System
             return criterias;
         }
 
-
-
         internal static void SaveRating(string ratingString, List<string> criterias) {
             var ratingsFilePath = Util.GetAbsoluteFilePath("Data\\ratings.csv");
             try
